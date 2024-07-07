@@ -36,6 +36,13 @@ jobs:
       feedsToUse: 'select'
 
   - task: DotNetCoreCLI@2
+    displayName: 'dotnet tool restore'
+    inputs:
+      command: 'custom'
+      custom: 'tool'
+      arguments: 'restore'
+
+  - task: DotNetCoreCLI@2
     displayName: 'dotnet build'
     inputs:
       command: 'build'
