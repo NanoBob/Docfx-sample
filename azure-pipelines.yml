@@ -21,21 +21,24 @@ jobs:
     inputs:
       packageType: 'sdk'
       version: '8.x'
+
   - task: DotNetCoreCLI@2
     displayName: 'Install docfx'
     inputs:
       command: 'custom'
       custom: 'tool'
       arguments: 'update -g docfx'
+
   - task: DotNetCoreCLI@2
     displayName: 'dotnet restore'
     inputs:
       command: 'restore'
       feedsToUse: 'select'
+
   - task: CmdLine@2
     displayName: 'docfx build'
     inputs:
-      script: 'docfx build ./docfx.json'
+      script: 'docfx ./docfx.json'
       workingDirectory: 'DocfxSample.Docs'
       
   - task: CopyFiles@2
@@ -45,16 +48,10 @@ jobs:
       Contents: '**'
       TargetFolder: '$(System.ArtifactsDirectory)/docs'
       OverWrite: true
+
   - task: PublishBuildArtifacts@1
     displayName: 'publish artifacts'
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'docs'
-      publishLocation: 'Container'
-      
-  - task: PublishBuildArtifacts@1
-    displayName: 'publish artifacts'
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'drop'
       publishLocation: 'Container'
