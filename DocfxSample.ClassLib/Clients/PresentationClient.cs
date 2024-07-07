@@ -1,6 +1,13 @@
-﻿namespace DocfxSample.ClassLib;
+﻿using DocfxSample.ClassLib.Clients.Interfaces;
+using DocfxSample.ClassLib.Models;
 
-public class PresentationClient : IPresentationClient
+namespace DocfxSample.ClassLib.Clients;
+
+/// <summary>
+/// An HttpClient for using the presentation API
+/// </summary>
+/// <param name="baseUrl">The base URL of the API</param>
+public class PresentationClient(string baseUrl) : IPresentationClient
 {
     public Task<IEnumerable<PresentationDto>> GetAll()
     {
