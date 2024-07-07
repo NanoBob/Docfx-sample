@@ -1,0 +1,60 @@
+trigger:
+- master
+- development
+pr:
+- master
+- development
+
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+jobs: 
+- job: 'docfx_build'
+  continueOnError: true
+  pool:
+    vmImage: 'windows-2022'
+  steps:
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '8.x'
+  - task: DotNetCoreCLI@2
+    displayName: 'Install docfx'
+    inputs:
+      command: 'custom'
+      custom: 'tool'
+      arguments: 'update -g docfx'
+  - task: DotNetCoreCLI@2
+    displayName: 'dotnet restore'
+    inputs:
+      command: 'restore'
+      feedsToUse: 'select'
+  - task: CmdLine@2
+    displayName: 'docfx build'
+    inputs:
+      script: 'docfx build ./docfx.json'
+      workingDirectory: 'DocfxSample.Docs'
+      
+  - task: CopyFiles@2
+    displayName: 'Copy DocFx output'
+    inputs:
+      SourceFolder: 'DocfxSample.Docs/_site'
+      Contents: '**'
+      TargetFolder: '$(System.ArtifactsDirectory)/docs'
+      OverWrite: true
+  - task: PublishBuildArtifacts@1
+    displayName: 'publish artifacts'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'docs'
+      publishLocation: 'Container'
+      
+  - task: PublishBuildArtifacts@1
+    displayName: 'publish artifacts'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
