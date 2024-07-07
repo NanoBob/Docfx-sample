@@ -1,0 +1,63 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../",
+          "files": [
+            "**/DocfxSample.ClassLib.csproj"
+          ]
+        }
+      ],
+      "dest": "api/lib"
+    },
+    {
+      "src": [
+        {
+          "src": "../",
+          "files": [
+            "**/DocfxSample.Events*.csproj"
+          ]
+        }
+      ],
+      "dest": "api/events"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**"
+        ]
+      },
+      {
+        "src": "../DocfxSample.Api/bin/Debug/net8.0",
+        "files": [
+          "swagger.json"
+        ],
+        "dest": "api/api"
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      }
+    ],
+    "output": "_site",
+    "template": [
+      "default",
+      "modern"
+    ],
+    "globalMetadata": {
+      "_appName": "DocfxSample",
+      "_appTitle": "DocfxSample",
+      "_enableSearch": true,
+      "pdf": false
+    }
+  }
+}

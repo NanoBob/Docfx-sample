@@ -1,0 +1,8 @@
+- name: Docs
+  href: docs/
+- name: API
+  href: api/api/swagger.html
+- name: Library
+  href: api/lib/
+- name: Events
+  href: api/events/

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+
+		<OpenApiDocumentsDirectory>$(MSBuildProjectDirectory)</OpenApiDocumentsDirectory>
+		<OpenApiGenerateDocuments>true</OpenApiGenerateDocuments>
+		<OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+	</ItemGroup>
+
+	<!-- The commands below are used to generate swagger.json files at build time -->
+	<!-- For these to work you have to run the following commands first: -->
+	<!-- dotnet new tool-manifest -->
+	<!-- dotnet tool install Swashbuckle.AspNetCore.Cli -->
+	<Target Name="OpenAPI" AfterTargets="Build" Condition="$(Configuration)=='Debug'">
+		<Exec Command="dotnet swagger tofile --output $(OutputPath)swagger.yaml --serializeasv2 --yaml $(OutputPath)$(AssemblyName).dll v1" WorkingDirectory="$(ProjectDir)" />
+		<Exec Command="dotnet swagger tofile --output $(OutputPath)swagger.json --serializeasv2 $(OutputPath)$(AssemblyName).dll v1" WorkingDirectory="$(ProjectDir)" />
+	</Target>
+</Project>
