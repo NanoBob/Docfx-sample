@@ -1,10 +1,5 @@
 trigger:
-- master
-- development
-pr:
-- master
-- development
-
+- main
 
 variables:
   solution: '**/*.sln'
